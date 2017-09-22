@@ -6,9 +6,6 @@ import Footer from '../components/Footer'
 import { Container, Content, Item, Input, Form, Label } from 'native-base';
 
 
-
-
-
 export default class AddPatient extends React.Component {
     constructor() {
         super();

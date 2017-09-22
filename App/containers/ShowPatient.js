@@ -16,12 +16,13 @@ export default class ShowPatient extends React.Component {
         this.searchByName = this.searchByName.bind(this);
         this.searchByDate = this.searchByDate.bind(this);
         this.state = {
+            date: '16/08/2017',
             normalStatus: true,
             filterStatus: false,
             data: [],
             filterData: [],
             searchedVal: '',
-            isLoading: true
+            isLoading: true,
         }
     }
 
@@ -48,28 +49,58 @@ export default class ShowPatient extends React.Component {
         }
     }
 
+    // searchByDate(date) {
+    //     // this.setState({
+    //     //     date: date
+    //     // })
+    //     var arrayToPushedData = this.state.data;
+    //     // this.setState({ date: date })
+    //     var arrayToPushedData = arrayToPushedData.filter(asset => asset.date.indexOf(date) !== -1);
+
+    //     if (date == '') {
+    //         this.setState({
+    //             normalStatus: true,
+    //             filterStatus: false
+    //         })
+
+    //     }
+    //     else {
+    //         this.setState({
+    //             filterStatus: true,
+    //             normalStatus: false,
+    //             filterData: arrayToPushedData
+    //         })
+    //     }
+    // }
+
     searchByDate(date) {
+        // console.log('searched by date', date)
         this.setState({
             date: date
         })
         var arrayToPushedData = this.state.data;
-        this.setState({ date: date })
+        this.setState({ date: date }) 
         var arrayToPushedData = arrayToPushedData.filter(asset => asset.date.indexOf(date) !== -1);
-
-        if (date == '') {
+        console.log('searched by date', arrayToPushedData)
+        console.log()
+        if (date != '') {
+            console.log('if run')
             this.setState({
-                normalStatus: true,
-                filterStatus: false
+                normalStatus: false,
+                filterStatus: true,
+                filterData: arrayToPushedData
             })
 
         }
         else {
+            console.log('else run filter data', this.state.filterData)
+            
             this.setState({
-                filterStatus: true,
-                normalStatus: false,
-                filterData: arrayToPushedData
+                filterStatus: false,
+                normalStatus: true,
+                // filterData: arrayToPushedData
             })
-        }
+        }        
     }
 
      showData() {
@@ -104,45 +135,11 @@ export default class ShowPatient extends React.Component {
     componentDidMount() {
         this.showData();
     }
-
+ 
 
 
     render() {
-        // if (this.state.isLoading) {
-        //     return (
-        //         <View style={{ flex: 1, paddingTop: 20 }}>
-        //             <ActivityIndicator />
-        //         </View>
-        //     );
-        // }
-        // var items = ['Simon Mignolet','Nathaniel Clyne','Dejan Lovren','Mama Sakho','Emre Can'];
         return (
-        //     <Container>
-        //     {/* <Header /> */}
-        //     <Content>    
-        //         {/* <Text>ksjdfkj</Text>             */}
-        //    {/* { this.state.normalStatus &&  */}
-        //     <List dataArray={items}
-        //         renderRow={(item) =>
-        //           <ListItem>
-        //             <Text>{item}</Text>
-        //           </ListItem>
-        //         }>
-        //       </List>
-        //        {/* } */}
-
-        //       {this.state.normalStatus &&  <List dataArray={this.state.data}
-        //         renderRow={(item) =>
-        //           <ListItem>
-        //             <Text>Name: {item.name}</Text>
-        //             <Text>Desease: {item.desease}</Text>
-        //           </ListItem>
-        //         }>
-        //       </List> }
-        //     </Content>
-        //   </Container>
-
-
             <ScrollView >
                 <View style={styles.container}>
                     <TextInput multiline={true}
@@ -150,32 +147,30 @@ export default class ShowPatient extends React.Component {
                         onChangeText={(text) => this.searchByName(text.toLowerCase())}
                         placeholder="Search"
                     />
-                    {/* <Button title="show data" onPress={this.showData.bind(this)} /> */}
-
                     <DatePicker
-                        style={{ width: 200 }}
-                        date={this.state.date}
-                        mode="date"
-                        placeholder="select date"
-                        format="D/M/YYYY"
-                        minDate="1/5/2016"
-                        maxDate="1/5/2018"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
-                            },
-                            dateInput: {
-                                marginLeft: 36
-                            }
-                            // ... You can check the source to find the other keys. 
-                        }}
-                        onDateChange={(date) => this.searchByDate(date)}
-                    />
+                    style={{width: 200}}
+                    date={this.state.date}
+                    mode="date"
+                    placeholder="select date"
+                    format="D/M/YYYY"
+                    minDate="1/5/2016"
+                    maxDate="1/5/2018"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                      dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                      },
+                      dateInput: {
+                        marginLeft: 36
+                      }
+                      // ... You can check the source to find the other keys. 
+                    }}
+                    onDateChange={(date) => this.searchByDate(date)}
+                  />
 
                  {this.state.normalStatus &&   <FlatList
                         data={this.state.data}
